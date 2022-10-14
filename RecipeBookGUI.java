@@ -106,10 +106,10 @@ public class RecipeBookGUI extends JFrame {
 		lCreation = new JLabel("                                                 Recipe Creation                                                 "); // spaces for formatting purposes
 		lCreation.setForeground(Color.WHITE);
 
-		lCreation1 = new JLabel("Enter recipe name: ");
-		recipeNameTF = new JTextField("", 33);
+		lCreation1 = new JLabel("                           Enter recipe name:    ");
+		recipeNameTF = new JTextField("", 30);
 
-		lCreation2 = new JLabel("Enter recipe description: ");
+		lCreation2 = new JLabel("                   Enter recipe description: ");
 		recipeDescriptionTF = new JTextField("", 30);
 
 		lCreation3 = new JLabel("Enter recipe ingredients (place each ingredient on a new line): ");
@@ -117,6 +117,7 @@ public class RecipeBookGUI extends JFrame {
 
 		lCreation4 = new JLabel("Enter recipe steps (place each step on a new line): ");
 		recipeStepsTA = new JTextArea("", 5, 45);
+		recipeStepsTA.setLocation(0, 0);
 
 		// create buttons
 		bRecipeToCreate = new JButton("Submit");
@@ -132,8 +133,10 @@ public class RecipeBookGUI extends JFrame {
 		pCreation.add(recipeIngredientsTA);
 		pCreation.add(lCreation4);
 		pCreation.add(recipeStepsTA);
-		pCreation.add(bRecipeToCreate);
 		pCreation.add(bBack1);
+		pCreation.add(bRecipeToCreate);
+
+		// recipeStepsTA.setLocation(0, 350);
 
 		/*
 			"Recipe Retrieval" page
@@ -173,6 +176,7 @@ public class RecipeBookGUI extends JFrame {
 			// get all recipes
 			String allRecipes = RecipeRetrieval.allRecipeNames(); // returns string of recipe list where recipes are seperated by \n
 			recipes = new JTextArea(allRecipes, 15, 45);
+			recipes.setEditable(false); // make the text field only readable, user cant click and modify
 
 			// create buttons
 			bBack4 = new JButton("Go Back");

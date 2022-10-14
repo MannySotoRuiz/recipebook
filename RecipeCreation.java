@@ -50,12 +50,31 @@ public class RecipeCreation {
             System.out.println("Recipe Saving Error!");
             e.printStackTrace();
         }
+        
+        System.out.println("New Recipe "+newRecipe.getName()+" successfully saved!");
+    }
+
+    public static void createRecipeGUI(String name, String description, String ingreds, String stps){
+        String[] ingList = ingreds.split("\n");
+        String[] stepList = stps.split("\n");
+
+        String ingredients = ingredientsToString(ingList);
+        String steps = stepsToString(stepList);
+
+        Recipes newRecipe = new Recipes(name, description, ingredients, steps);
+
+        try {
+            writeRecipeToFile(newRecipe);
+        } catch (Exception e) {
+            System.out.println("Recipe Saving Error!");
+            e.printStackTrace();
+        }
     }
 
     public static Boolean duplicatedName(String name){
         ArrayList<Recipes> reList = RecipeRetrieval.LoadRecipes();
         for (Recipes r: reList){
-            if (r.getName().equals(name)){
+            if (r.getName().toLowerCase().equals(name.toLowerCase())){
                 return true;
             }
         }
@@ -80,10 +99,27 @@ public class RecipeCreation {
     	return IngStr;
     }
 
+    public static String ingredientsToString(String[] ingredients) {
+        String IngStr = "";
+    	for (int i = 0; i<ingredients.length;i++) {
+    		IngStr = IngStr + ingredients[i] + (i==ingredients.length-1?"":", ");
+        }
+    	return IngStr;
+    }
+
     public static String stepsToString(ArrayList<String> steps) {
     	String stepStr = "";
     	for (int i = 0; i<steps.size();i++) {
     		stepStr = stepStr + (i==0?"":"  ") + String.format("%d. %s", i+1, steps.get(i));
+        }
+    	return stepStr;
+	}
+
+    public static String stepsToString(String[] steps) {
+    	String stepStr = "";
+    	for (int i = 0; i<steps.length; i++) {
+            String temp = formattedSentence(steps[i]);
+    		stepStr = stepStr + (i==0?"":"  ") + String.format("%d. %s", i+1, temp);
         }
     	return stepStr;
 	}
@@ -100,8 +136,7 @@ public class RecipeCreation {
         writer.append("\n");
 
         writer.close();
-        System.out.println("New Recipe "+recipe.getName()+" successfully saved!");
-	System.out.println();
+	    System.out.println();
     }
 
 }
